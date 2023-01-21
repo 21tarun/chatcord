@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat login</title>
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+            background: #88b0ec;
+
+
+        }
+
+        .auth {
+            height: 400px;
+            width: 300px;
+            background-color: #497dca;
+            display: flex;
+            align-items: center;
+            flex-direction:column;
+        }
+        .head{
+            margin-bottom: 50px;
+        }
+        .name{
+            margin-bottom: 40px;
+            
+
+        }
+        .password{
+            margin-bottom:80px;
+        }
+        .submit{
+            margin-bottom: 50px;
+        }
+        .name #name{
+            width: 250px;
+            height: 25px;
+        }
+        .password #password{
+            width: 250px;
+            height: 25px;
+        }
+        .submit #submit{
+            height: 35px;
+            width: 100px;
+            height: 35px;
+            background-color: #124187;
+            border: #497dca;
+            color: rgb(253, 253, 253);
+            font-size: 18px;
+        }
+
+
+        
+    </style>
+</head>
+
+<body>
+
+    <form  class="auth" method="POST" action="/chat/">
+
+
+        <div class="head">
+            <h2>Join Chat Server</h2>
+        </div>
+        <div class="name">
+            <input type="name" name="name" id="name" required="required" placeholder="Name">
+        </div>
+        <div class="password">
+            <input type="password" name="password" id="password" required="required" placeholder="Joining code">
+        </div>
+        <div class="submit">
+            <button id="submit" type="submit" >Join</button>
+        </div>
+
+
+
+    </form >
+    <script>
+
+    </script>
+
+</body>
+
+</html>
