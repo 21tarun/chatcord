@@ -16,6 +16,8 @@ let textarea=document.querySelector('#textarea')
 let messageArea=document.querySelector('.message__area')
 let liveUsers=document.querySelector('.live')
 
+document.querySelector('.brand2').innerHTML=`<h1>${name} say, dora dora</h1>`
+
 
 if(name!='')
 {
@@ -90,7 +92,7 @@ function appendJoinedMessage(info,type){
     let className=type
     mainDiv.classList.add(className,'message')
     let markup=`
-        <p>${info} joined the chat</p>
+        <p>${info} has joined the chat</p>
     `
     mainDiv.innerHTML=markup
     messageArea.appendChild(mainDiv)
