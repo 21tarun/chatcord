@@ -76,12 +76,14 @@ function appendLiveUser(name){
 }
 
 function appendMessage(msg,type){
+    let copy_msg={...msg}
     let mainDiv =document.createElement('div')
+    if(type=='outgoing') copy_msg.user='You'
     let className=type
     mainDiv.classList.add(className,'message')
     let markup=`
-        <h4>${msg.user}</h4>
-        <p>${msg.message}</p>
+        <h4>${copy_msg.user}</h4>
+        <p>${copy_msg.message}</p>
     `
     mainDiv.innerHTML=markup
     messageArea.appendChild(mainDiv)
