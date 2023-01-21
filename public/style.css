@@ -104,6 +104,7 @@ button:hover{
 .joinner {
     background: #eac0e2;
     color: #787986;
+    margin-left: 30%;
 }
 .message h4 {
     position: absolute;
