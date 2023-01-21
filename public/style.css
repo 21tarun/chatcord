@@ -100,6 +100,11 @@ button:hover{
     color: #787986;
     margin-left: auto;
 }
+
+.joinner {
+    background: #eac0e2;
+    color: #787986;
+}
 .message h4 {
     position: absolute;
     top: -20px;

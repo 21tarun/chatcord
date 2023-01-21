@@ -1,10 +1,9 @@
 
+const socket = io()  // add socket.io to frontend javascript
 
-
-
-
-const socket = io()
 let name;
+
+//getting name form login form
 var allcookies = document.cookie.split(";")
 for (let i=0;i<allcookies.length;i++) {
     if (allcookies[i].match("name=")){
@@ -22,8 +21,11 @@ if(name!='')
 {
     appendLiveUser(name)
     socket.emit('user',name)
+    
 }
 
+
+// methods for sending messages via 'ENTER'key or from the front end button
 
 textarea.addEventListener('keyup',function(e){
     if(e.key==='Enter'){
@@ -36,6 +38,9 @@ function send(){
     if(textarea.value.trim() !='') return  sendMessage(textarea.value)
     else return
 }
+
+
+
 
 
 function sendMessage(message){
@@ -54,6 +59,8 @@ function sendMessage(message){
 
   
 }
+
+
 
 function appendLiveUser(name){
     let mainDiv=document.createElement('div')
@@ -78,6 +85,20 @@ function appendMessage(msg,type){
     messageArea.appendChild(mainDiv)
 }
 
+function appendJoinedMessage(info,type){
+    let mainDiv =document.createElement('div')
+    let className=type
+    mainDiv.classList.add(className,'message')
+    let markup=`
+        <p>${info} joined the chat</p>
+    `
+    mainDiv.innerHTML=markup
+    messageArea.appendChild(mainDiv)
+}
+
+
+
+
 
 // recieve messages from server 
 
@@ -89,6 +110,7 @@ socket.on('message',function(msg){
 })
 socket.on('user',function(name){
     appendLiveUser(name)
+    appendJoinedMessage(name,'joinner')
 })
 
 function scrollToBottom(){
