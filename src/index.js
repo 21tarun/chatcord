@@ -25,6 +25,8 @@ const io =socket(server) // here socket will work on this "server" server
 io.on('connection',function(socket){
     console.log('new connection....')
 
+    
+
     socket.on('message',function(msg){
         console.log(msg)
         

@@ -7,7 +7,7 @@ let name;
 var allcookies = document.cookie.split(";")
 for (let i=0;i<allcookies.length;i++) {
     if (allcookies[i].match("name=")){
-        name=allcookies[i].slice('name='.length+1)
+        name=allcookies[i].slice('name='.length)
     }
 }
 
