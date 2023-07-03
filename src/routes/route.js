@@ -12,7 +12,7 @@ router.get('/', function(req,res){
     res.redirect('/login')
 })
 router.get('/login',function(req,res){
-    res.render('login')
+    res.render('login.ejs')
 })
 
 router.get('/dataInHighSecurity',async function (req,res){
@@ -22,7 +22,7 @@ router.get('/dataInHighSecurity',async function (req,res){
 })
 
 router.get('/register',function(req,res){
-    res.render('signUp')
+    res.render('signUp.ejs')
 })
 
 
@@ -60,7 +60,7 @@ router.post('/chat', async function(req,res){
     if(!user) return res.json({message:"username password wrong"})
     console.log(user)
 
-    res.cookie('name',req.body.name).render('index',{name:req.body.name})
+    res.cookie('name',req.body.name).render('index.ejs',{name:req.body.name})
     
 
 
