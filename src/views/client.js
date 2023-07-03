@@ -1,22 +1,35 @@
 
 const socket = io()  // add socket.io to frontend javascript
 
-let name;
 
-//getting name form login form
+const fetchData = async function(url){
+    await fetch(url)
+    .then(msgHistory=> msgHistory.json())
+    .then((data)=>appendPreviousChat(data))
+    
+}
+
+fetchData("http://localhost:3000/dataInHighSecurity")
+
+var name
+// getting name form login form
+
 var allcookies = document.cookie.split(";")
+
 for (let i=0;i<allcookies.length;i++) {
     if (allcookies[i].match("name=")){
-        name=allcookies[i].slice('name='.length)
+        
+        name=allcookies[i].slice('name='.length+1)
     }
 }
+
 
 
 let textarea=document.querySelector('#textarea')
 let messageArea=document.querySelector('.message__area')
 let liveUsers=document.querySelector('.live')
 
-document.querySelector('.brand2').innerHTML=`<h1>${name} say, dora dora</h1>`
+// document.querySelector('.brand2').innerHTML=`<h1>${name} say, dora dora</h1>`   
 
 
 if(name!='')
@@ -25,6 +38,9 @@ if(name!='')
     socket.emit('user',name)
     
 }
+
+
+
 
 
 // methods for sending messages via 'ENTER'key or from the front end button
@@ -46,9 +62,19 @@ function send(){
 
 
 function sendMessage(message){
+    let dateTime = new Date('2023-07-03T08:30:06.405Z');
+
+    const formattedDate = dateTime.toLocaleDateString('en-IN');
+    
+
+    const formattedTime = dateTime.toLocaleTimeString('en-IN');
+    
+    dateTime=formattedDate +" "+formattedTime
     let msg={
         user:name,
-        message:message.trim()
+        message:message.trim(),
+
+        dateTime: dateTime
     }
 
     // append message on client side (outgoing message)
@@ -75,6 +101,24 @@ function appendLiveUser(name){
     liveUsers.appendChild(mainDiv)
 }
 
+function appendPreviousChat(msgStorage){
+    for(let i=0; i<msgStorage.length ;i++){
+        if(msgStorage[i].name==name){
+            var msgtype='outgoing'
+        }
+        else{
+            msgtype='incoming'
+        }
+        msg={
+            user:msgStorage[i].name,
+            message:msgStorage[i].message,
+            dateTime:msgStorage[i].dateTime
+        }
+        appendMessage(msg,msgtype)
+    }
+    scrollToBottom()
+}
+
 function appendMessage(msg,type){
     let copy_msg={...msg}
     let mainDiv =document.createElement('div')
@@ -84,6 +128,7 @@ function appendMessage(msg,type){
     let markup=`
         <h4>${copy_msg.user}</h4>
         <p>${copy_msg.message}</p>
+        <h6>${copy_msg.dateTime}</h6>
     `
     mainDiv.innerHTML=markup
     messageArea.appendChild(mainDiv)
