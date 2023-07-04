@@ -1,15 +1,29 @@
 
 const socket = io()  // add socket.io to frontend javascript
+var live={} 
 
-
-const fetchData = async function(url){
-    await fetch(url)
+const fetchMsgsData = async function(url){
+    fetch(url)
     .then(msgHistory=> msgHistory.json())
     .then((data)=>appendPreviousChat(data))
     
 }
 
-fetchData("http://localhost:3000/dataInHighSecurity")
+const fetchLiveUsersData = async function(url){
+
+    fetch(url)
+    .then(liveUsers=> liveUsers.json())
+    .then((data)=>{
+
+        for(let i=0;i<data.length;i++){
+            appendLiveUser(data[i]['userName'])
+        } 
+    })
+    
+}
+
+fetchMsgsData("http://localhost:3000/dataInHighSecurity")
+fetchLiveUsersData("http://localhost:3000/getAllLiveUsers")
 
 var name
 // getting name form login form
@@ -17,9 +31,9 @@ var name
 var allcookies = document.cookie.split(";")
 
 for (let i=0;i<allcookies.length;i++) {
-    if (allcookies[i].match("name=")){
+    if (allcookies[i].trim().match("name=")){
         
-        name=allcookies[i].slice('name='.length+1)
+        name=allcookies[i].trim().slice('name='.length)
     }
 }
 
@@ -62,7 +76,7 @@ function send(){
 
 
 function sendMessage(message){
-    let dateTime = new Date('2023-07-03T08:30:06.405Z');
+    let dateTime = new Date();
 
     const formattedDate = dateTime.toLocaleDateString('en-IN');
     
@@ -89,7 +103,6 @@ function sendMessage(message){
 }
 
 
-
 function appendLiveUser(name){
     let mainDiv=document.createElement('div')
     mainDiv.classList.add('user')
@@ -99,6 +112,10 @@ function appendLiveUser(name){
     mainDiv.innerHTML=markup
 
     liveUsers.appendChild(mainDiv)
+    
+    
+
+    
 }
 
 function appendPreviousChat(msgStorage){
@@ -135,6 +152,8 @@ function appendMessage(msg,type){
 }
 
 function appendJoinedMessage(info,type){
+    fetchLiveUsersData("http://localhost:3000/getAllLiveUsers")
+
     let mainDiv =document.createElement('div')
     let className=type
     mainDiv.classList.add(className,'message')
@@ -143,6 +162,20 @@ function appendJoinedMessage(info,type){
     `
     mainDiv.innerHTML=markup
     messageArea.appendChild(mainDiv)
+}
+
+function appendRemovedMessage(info,type){
+    fetchLiveUsersData("http://localhost:3000/getAllLiveUsers")
+
+    let mainDiv =document.createElement('div')
+    let className=type
+    mainDiv.classList.add(className,'message')
+    let markup=`
+        <p>${info} has removed the chat</p>
+    `
+    mainDiv.innerHTML=markup
+    messageArea.appendChild(mainDiv)
+
 }
 
 
@@ -158,8 +191,18 @@ socket.on('message',function(msg){
     scrollToBottom()
 })
 socket.on('user',function(name){
-    appendLiveUser(name)
+    
+    
+    liveUsers.innerHTML = '';
+
     appendJoinedMessage(name,'joinner')
+})
+socket.on('disName',function(name2){
+
+    liveUsers.innerHTML = '';
+
+
+    appendRemovedMessage(name2,'joinner')
 })
 
 function scrollToBottom(){

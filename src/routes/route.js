@@ -4,6 +4,7 @@ const router= express.Router()
 
 const messageModel= require('../models/messageModel')
 const userModel=require('../models/userModel')
+const liveUsersModel=require('../models/liveUserModel')
 
 
 
@@ -12,7 +13,8 @@ router.get('/', function(req,res){
     res.redirect('/login')
 })
 router.get('/login',function(req,res){
-    res.render('../views/login')
+   
+    res.render('login')
 })
 
 router.get('/dataInHighSecurity',async function (req,res){
@@ -22,7 +24,7 @@ router.get('/dataInHighSecurity',async function (req,res){
 })
 
 router.get('/register',function(req,res){
-    res.render('../views/signUp')
+    res.render('signUp')
 })
 
 
@@ -60,12 +62,14 @@ router.post('/chat', async function(req,res){
     if(!user) return res.json({message:"username password wrong"})
     console.log(user)
 
-    res.cookie('name',req.body.name).render('../views/index',{name:req.body.name})
+    res.cookie('name',req.body.name).render('index',{name:req.body.name})
     
+})
 
+router.get('/getAllLiveUsers',async function(req,res){
+    const allLiveUsers= await liveUsersModel.find()
+    res.json(allLiveUsers)
 
-    
-   
 })
 
 
